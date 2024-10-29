@@ -14,7 +14,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-@Getter
 public class JwtUtils {
 
     private static String SECRET_KEY = "23890138921-09-4802489032-432423";

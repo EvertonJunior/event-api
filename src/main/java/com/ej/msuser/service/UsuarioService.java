@@ -48,4 +48,9 @@ public class UsuarioService {
         repository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
+    public Usuario findByUsername(String username) {
+        return repository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("Usuario nao encontrado"));
+    }
+
 }
