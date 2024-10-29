@@ -5,11 +5,11 @@ import com.ej.msuser.service.UsuarioService;
 import com.ej.msuser.web.dtos.UsuarioCreateDto;
 import com.ej.msuser.web.dtos.UsuarioResponseDto;
 import com.ej.msuser.web.mappers.UsuarioMapper;
-import com.oracle.svm.core.annotate.Delete;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,19 +28,24 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UsuarioResponseDto> findById(@PathVariable long id){
         return ResponseEntity.ok(UsuarioMapper.toDto(service.findById(id)));
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioResponseDto>> findAll(){
         return ResponseEntity.ok(service.findAll().stream().map(UsuarioMapper::toDto).toList());
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable long id){
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
 
 }

@@ -36,7 +36,7 @@ public class JwtUtils {
         return Date.from(issueAt.toInstant().plus(Duration.ofMinutes(EXPIRE_MINUTES)));
     }
 
-    public String isValidToken(String token){
+    public static String isValidToken(String token){
         try{
             return Jwts.parser().verifyWith(generatedKey()).build()
                     .parseSignedClaims(refactorToken(token)).getPayload().getSubject();
@@ -45,7 +45,7 @@ public class JwtUtils {
         }
     }
 
-    private CharSequence refactorToken(String token) {
+    private static CharSequence refactorToken(String token) {
         if(token.contains("Bearer ")){
             return token.substring("Bearer ".length());
         }
