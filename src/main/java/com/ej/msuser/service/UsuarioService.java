@@ -7,6 +7,7 @@ import com.ej.msuser.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +20,12 @@ public class UsuarioService {
 
     private final UsuarioRepository repository;
 
+    private final PasswordEncoder encoder;
+
     @Transactional
     public Usuario create(Usuario usuario){
         try{
+            usuario.setPassword(encoder.encode(usuario.getPassword()));
             return repository.save(usuario);
         } catch (DataIntegrityViolationException e){
             throw new UsernameUniqueViolationException("Usuario ja cadastrado no sistema");
