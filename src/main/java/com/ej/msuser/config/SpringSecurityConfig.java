@@ -29,7 +29,8 @@ public class SpringSecurityConfig {
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/usuarios")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/usuarios/cliente")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/usuarios/prestador")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/auth")).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(authorizationFilter(), UsernamePasswordAuthenticationFilter.class)

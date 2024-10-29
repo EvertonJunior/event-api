@@ -21,9 +21,15 @@ public class UsuarioController {
 
     private final UsuarioService service;
 
-    @PostMapping
-    public ResponseEntity<UsuarioResponseDto> create(@RequestBody @Valid UsuarioCreateDto dto){
-        Usuario usuario = service.create(UsuarioMapper.toUsuario(dto));
+    @PostMapping("/cliente")
+    public ResponseEntity<UsuarioResponseDto> createCliente(@RequestBody @Valid UsuarioCreateDto dto){
+        Usuario usuario = service.create(UsuarioMapper.toUsuario(dto), "CLIENTE");
+        return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(usuario));
+    }
+
+    @PostMapping("/prestador")
+    public ResponseEntity<UsuarioResponseDto> createPrestador(@RequestBody @Valid UsuarioCreateDto dto){
+        Usuario usuario = service.create(UsuarioMapper.toUsuario(dto), "PRESTADOR");
         return ResponseEntity.status(HttpStatus.CREATED).body(UsuarioMapper.toDto(usuario));
     }
 
