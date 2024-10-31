@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Entity
 public class ResetPasswordToken implements Serializable {
 
     @Id
@@ -24,4 +25,5 @@ public class ResetPasswordToken implements Serializable {
         this.usuario = usuario;
         this.token = token;
     }
+
 }
