@@ -1,7 +1,10 @@
 package com.ej.msuser.web.controllers;
 
 import com.ej.msuser.entity.Usuario;
+import com.ej.msuser.service.ResetPasswordTokenService;
 import com.ej.msuser.service.UsuarioService;
+import com.ej.msuser.web.dtos.ForgotPasswordDto;
+import com.ej.msuser.web.dtos.ResetPasswordDto;
 import com.ej.msuser.web.dtos.UsuarioCreateDto;
 import com.ej.msuser.web.dtos.UsuarioResponseDto;
 import com.ej.msuser.web.mappers.UsuarioMapper;
@@ -20,6 +23,8 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService service;
+
+    private final ResetPasswordTokenService tokenService;
 
     @PostMapping("/cliente")
     public ResponseEntity<UsuarioResponseDto> createCliente(@RequestBody @Valid UsuarioCreateDto dto){
@@ -49,6 +54,18 @@ public class UsuarioController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable long id){
         service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestBody @Valid ForgotPasswordDto dto){
+        tokenService.createToken(dto.getEmail());
+        return ResponseEntity.ok("Email para recuperacao de senha enviado");
+    }
+
+    @PatchMapping("/reset-password")
+    public ResponseEntity<Void> resetPassword(@RequestParam("token") String token, @RequestBody @Valid ResetPasswordDto dto){
+        tokenService.resetPassword(token, dto.getNewPassword(), dto.getConfirmNewPassword());
         return ResponseEntity.noContent().build();
     }
 

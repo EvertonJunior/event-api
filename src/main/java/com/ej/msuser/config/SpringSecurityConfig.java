@@ -31,6 +31,8 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/usuarios/cliente")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/usuarios/prestador")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/usuarios/forgot-password")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.PATCH, "/api/v1/usuarios/reset-password")).permitAll()
                         .requestMatchers(antMatcher(HttpMethod.POST, "/api/v1/auth")).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(authorizationFilter(), UsernamePasswordAuthenticationFilter.class)
